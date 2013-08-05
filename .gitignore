@@ -1,0 +1,15 @@
+.DS_Store
+
+CMakeFiles
+CMakeFiles/**/*
+Testing
+Testing/**/*
+lib
+lib/**/*
+
+CMakeCache.txt
+CTestTestfile.cmake
+Makefile
+cmake_install.cmake
+
+oneiroi-console
