@@ -32,12 +32,13 @@
 #include <map>
 #include <functional>
 #include <iostream>
+#include <sstream>
 
 namespace oneiroi {
 
 	class Shell {
 	public:
-		Shell( std::string prompt = ">>> " );
+		Shell( int argc, char **argv, std::string prompt = ">>> " );
 		virtual ~Shell( void );
 
 		SerialStream &getSerialStream( void ) { return _serial; }
@@ -48,8 +49,11 @@ namespace oneiroi {
 		int run( void );
 
 	private:
+		ShellCommand::ReturnType processLine( std::stringstream &args );
+
 		std::map< std::string, ShellCommandPtr > _commands;
 		std::string _prompt;
+		std::stringstream _args;
 		SerialStream _serial;
 	};
 

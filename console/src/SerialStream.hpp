@@ -71,10 +71,10 @@ namespace oneiroi {
 			return str;
 		}
 
-	private:
-		void write( std::string s );
 		std::string readLine( void );
 
+	private:
+		void write( std::string s );
 		std::stringstream _str;
 		int _device;
 	};

@@ -31,8 +31,7 @@ using namespace oneiroi;
 
 int main( int argc, char **argv ) 
 {
-	Shell shell( "Oneiroi Console 0.1 >>> ");
-	shell.registerCommand( ShellCommandPtr( new SerialCommand( "scan" ) ) );
+	Shell shell( argc, argv, "Oneiroi Console 0.1 >>> " );
 	return shell.run();
 }
 

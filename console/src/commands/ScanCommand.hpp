@@ -23,46 +23,24 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ConnectCommand.hpp"
-#include "Shell.hpp"
+#ifndef ONEIROI_SHELL_COMMAND_SCAN_
+#define ONEIROI_SHELL_COMMAND_SCAN_
 
-#include <iostream>
+#include "ShellCommand.hpp"
 
-using namespace oneiroi;
+namespace oneiroi {
 
-ConnectCommand::ConnectCommand( void )
-	: ShellCommand( "connect" )
-{
+	class ScanCommand : public ShellCommand {
+	public:
+		explicit ScanCommand( std::string name = "scan" );
+		virtual ~ScanCommand( void );
+
+		virtual ShellCommand::ReturnType execute( Shell *, std::istream & ) override;
+	};
 
 }
 
-ConnectCommand::~ConnectCommand( void )
-{
+#endif
 
-}
 
-ShellCommand::ReturnType ConnectCommand::execute( Shell *shell, std::istream &input )
-{
-	std::string deviceName;
-	int baudRate;
-
-	input >> deviceName >> baudRate;
-    if ( deviceName == "" ) {
-    	std::cout << "Usage: connect device_name [baudRate]" << std::endl;
-        return ShellCommand::ReturnType::ERROR;
-    }
-
-	if ( !shell->getSerialStream().open( deviceName, baudRate ) ) {
-		return ShellCommand::ReturnType::ERROR;
-	}
-
-    std::cout << "CONNECTION ESTABLISHED" << std::endl;
-
-    std::cout << "Performing handshake with robot... ";
-    shell->getSerialStream() << "handshake" << SerialStream::End;
-    std::string response = shell->getSerialStream().readLine();
-    std::cout << "SUCCESS\n" << response << std::endl;
-
-	return ShellCommand::ReturnType::SUCCESS;
-}
 

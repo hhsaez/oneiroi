@@ -27,18 +27,24 @@
 #include "commands/HelpCommand.hpp"
 #include "commands/TerminateCommand.hpp"
 #include "commands/ConnectCommand.hpp"
+#include "commands/ScanCommand.hpp"
 
 #include <iostream>
 #include <sstream>
 
 using namespace oneiroi;
 
-Shell::Shell( std::string prompt )
+Shell::Shell( int argc, char **argv, std::string prompt )
 	: _prompt( prompt )	
 {
+	for ( int i = 1; i < argc; i++ ) {
+		_args << argv[ i ] << " ";
+	}
+
 	registerCommand( ShellCommandPtr( new HelpCommand() ) );
 	registerCommand( ShellCommandPtr( new TerminateCommand() ) );
 	registerCommand( ShellCommandPtr( new ConnectCommand() ) );
+	registerCommand( ShellCommandPtr( new ScanCommand() ) );
 }
 
 Shell::~Shell( void )
@@ -63,27 +69,38 @@ int Shell::run( void )
 	char buffer[ 1024 ];
 	bool done = false;
 
+	if ( !_args.eof() ) {
+		processLine( _args );
+	}
+
 	do {
 		std::cout << _prompt;
 		std::cin.getline( buffer, 1024 );
 		std::stringstream args;
 		args << buffer;
 
-		std::string commandName;
-		args >> commandName;
-		ShellCommandPtr command = _commands[ commandName ];
-		if ( command != nullptr ) {
-			ShellCommand::ReturnType ret = command->execute( this, args );
-			if ( ret == ShellCommand::ReturnType::TERMINATE ) {
-				done = true;
-			}
+		ShellCommand::ReturnType ret = processLine( args );
+		if ( ret == ShellCommand::ReturnType::TERMINATE ) {
+			done = true;
 		}
-		else {
-			std::cerr << "Unknown command '" << commandName << "'" << std::endl;
-		}
-
 	} while ( !done );
 
 	return 0;
+}
+
+ShellCommand::ReturnType Shell::processLine( std::stringstream &args )
+{
+	std::string commandName;
+	args >> commandName;
+	ShellCommandPtr command = _commands[ commandName ];
+	if ( command != nullptr ) {
+		return command->execute( this, args );
+	}
+
+	if ( commandName.length() > 0 ) {
+		std::cerr << "Unknown command '" << commandName << "'" << std::endl;
+	}
+
+	return ShellCommand::ReturnType::ERROR;
 }
 

@@ -23,43 +23,26 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ConnectCommand.hpp"
+#include "ScanCommand.hpp"
 #include "Shell.hpp"
-
-#include <iostream>
 
 using namespace oneiroi;
 
-ConnectCommand::ConnectCommand( void )
-	: ShellCommand( "connect" )
+ScanCommand::ScanCommand( std::string name )
+	: ShellCommand( name )
 {
 
 }
 
-ConnectCommand::~ConnectCommand( void )
+ScanCommand::~ScanCommand( void )
 {
 
 }
 
-ShellCommand::ReturnType ConnectCommand::execute( Shell *shell, std::istream &input )
+ShellCommand::ReturnType ScanCommand::execute( Shell *shell, std::istream & )
 {
-	std::string deviceName;
-	int baudRate;
+    shell->getSerialStream() << getName() << SerialStream::End;
 
-	input >> deviceName >> baudRate;
-    if ( deviceName == "" ) {
-    	std::cout << "Usage: connect device_name [baudRate]" << std::endl;
-        return ShellCommand::ReturnType::ERROR;
-    }
-
-	if ( !shell->getSerialStream().open( deviceName, baudRate ) ) {
-		return ShellCommand::ReturnType::ERROR;
-	}
-
-    std::cout << "CONNECTION ESTABLISHED" << std::endl;
-
-    std::cout << "Performing handshake with robot... ";
-    shell->getSerialStream() << "handshake" << SerialStream::End;
     std::string response = shell->getSerialStream().readLine();
     std::cout << "SUCCESS\n" << response << std::endl;
 
