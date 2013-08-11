@@ -28,6 +28,7 @@
 #include "commands/TerminateCommand.hpp"
 #include "commands/ConnectCommand.hpp"
 #include "commands/ScanCommand.hpp"
+#include "commands/SerialCommand.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -45,6 +46,10 @@ Shell::Shell( int argc, char **argv, std::string prompt )
 	registerCommand( ShellCommandPtr( new TerminateCommand() ) );
 	registerCommand( ShellCommandPtr( new ConnectCommand() ) );
 	registerCommand( ShellCommandPtr( new ScanCommand() ) );
+	registerCommand( ShellCommandPtr( new SerialCommand( "left" ) ) );
+	registerCommand( ShellCommandPtr( new SerialCommand( "right" ) ) );
+	registerCommand( ShellCommandPtr( new SerialCommand( "forward" ) ) );
+	registerCommand( ShellCommandPtr( new SerialCommand( "backward" ) ) );
 }
 
 Shell::~Shell( void )

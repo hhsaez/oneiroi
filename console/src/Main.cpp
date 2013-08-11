@@ -31,7 +31,7 @@ using namespace oneiroi;
 
 int main( int argc, char **argv ) 
 {
-	Shell shell( argc, argv, "Oneiroi Console 0.1 >>> " );
+	Shell shell( argc, argv, "oneiroi-0.2 >>> " );
 	return shell.run();
 }
 

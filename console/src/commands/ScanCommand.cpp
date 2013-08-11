@@ -44,7 +44,7 @@ ShellCommand::ReturnType ScanCommand::execute( Shell *shell, std::istream & )
     shell->getSerialStream() << getName() << SerialStream::End;
 
     std::string response = shell->getSerialStream().readLine();
-    std::cout << "SUCCESS\n" << response << std::endl;
+    std::cout << "SUCCESS: " << response << std::endl;
 
 	return ShellCommand::ReturnType::SUCCESS;
 }
