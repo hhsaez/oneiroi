@@ -100,8 +100,7 @@ void dispatchAction( const char *action )
     moveBackward();
   }
   else {
-    Serial.print( "Unknown action: " );
-    Serial.println( action );
+    unknownAction( action );
   }
 }
 
@@ -129,7 +128,7 @@ void scan() {
   distanceLeft = computeDistance();
   
   headServo.write( HEAD_RIGHT_ANGLE );
-  delay( 500 );
+  delay( 1000 );
   distanceRight = computeDistance();
   
   headServo.write( HEAD_CENTER_ANGLE );
@@ -230,4 +229,18 @@ void moveBackward()
   stopMotors();
   Serial.println( "Action completed" );
 }
+
+void unknownAction(String action)
+{
+  headServo.write( HEAD_CENTER_ANGLE - 30 );
+  delay( 100 );
+  headServo.write( HEAD_CENTER_ANGLE + 30 );
+  delay( 100 );
+  headServo.write( HEAD_CENTER_ANGLE );
+  delay( 100 );
+
+  Serial.print( "Unknown action: " );
+  Serial.println( action );
+}
+
 

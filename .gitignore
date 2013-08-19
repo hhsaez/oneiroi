@@ -13,3 +13,12 @@ Makefile
 cmake_install.cmake
 
 oneiroi-console
+
+*.apk
+*.ap_
+*.dex
+*.class
+bin
+gen
+target
+

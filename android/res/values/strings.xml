@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Oneiroi</string>
+    <string name="action_settings">Settings</string>
+    
+    <string name="lblStatus">Status:</string>
+    <string name="txtStatus">Unknown</string>
+    <string name="lblSent">S:</string>
+    <string name="txtSent">NO_DATA</string>
+    <string name="lblReceived">R:</string>
+    <string name="txtReceived">NO_DATA</string>
+    
+    <string name="btnRight">Right</string>
+    <string name="btnLeft">Left</string>
+    <string name="btnForward">Fwd</string>
+    <string name="btnBackward">Back</string>
+    <string name="btnScan">Scan</string>
+
+</resources>
