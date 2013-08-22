@@ -69,7 +69,6 @@ void loop()
     char c = Serial.read();
     if ( c == '\n' ) {
       buffer[ i ] = '\0';
-      delay( 3000 );
       dispatchAction( buffer );
       i = 0;
     }
