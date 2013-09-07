@@ -21,6 +21,14 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+
+		((Button)(findViewById(R.id.btnLaunchAutonomous))).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, AutonomousActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override

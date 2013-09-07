@@ -3,6 +3,7 @@
 
     <string name="app_name">Oneiroi</string>
     <string name="activity_remote_control">Remote Control</string>
+    <string name="activity_autonomous">Autonomous</string>
     
     <string name="action_settings">Settings</string>
     
@@ -14,11 +15,14 @@
     <string name="txtReceived">NO_DATA</string>
     
     <string name="btnLaunchRemoteControl">Remote Control</string>
-    
+    <string name="btnLaunchAutonomous">Autonomous</string>
+ 
     <string name="btnRight">Right</string>
     <string name="btnLeft">Left</string>
     <string name="btnForward">Fwd</string>
     <string name="btnBackward">Back</string>
     <string name="btnScan">Scan</string>
+    
+    <string name="txtAutonomousState">Started</string>
 
 </resources>

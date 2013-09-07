@@ -32,6 +32,10 @@
                 android:resource="@xml/device_filter" />
 		</activity>
         <activity android:name="com.oneiroi.RemoteControlActivity" android:label="@string/activity_remote_control" />
+        <activity 
+            android:name="com.oneiroi.AutonomousActivity" 
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
+            android:label="@string/activity_autonomous" />
     </application>
 
 </manifest>
