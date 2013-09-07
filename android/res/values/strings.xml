@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">Oneiroi</string>
+    <string name="activity_remote_control">Remote Control</string>
+    
     <string name="action_settings">Settings</string>
     
     <string name="lblStatus">Status:</string>
@@ -10,6 +12,8 @@
     <string name="txtSent">NO_DATA</string>
     <string name="lblReceived">R:</string>
     <string name="txtReceived">NO_DATA</string>
+    
+    <string name="btnLaunchRemoteControl">Remote Control</string>
     
     <string name="btnRight">Right</string>
     <string name="btnLeft">Left</string>
