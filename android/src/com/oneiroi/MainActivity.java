@@ -13,6 +13,8 @@ public class MainActivity extends Activity implements CommunicationManager.Liste
 	
 	private Handler handler = new Handler();
 	private CommunicationManager commMananger;
+	private String lastCommand = "";
+	private Handler uiThreadHandler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class MainActivity extends Activity implements CommunicationManager.Liste
 				CommunicationManager commMananger = MainActivity.this.commMananger;
 				if (commMananger != null) {
 					commMananger.sendCommand(command);
+					MainActivity.this.lastCommand = command;
 				}
 				else {
 					Log.e("LLEGO", "Communication manager not initialized");
@@ -74,6 +77,32 @@ public class MainActivity extends Activity implements CommunicationManager.Liste
 	@Override
 	public void onDataReceived(String response) {
 		updateText(R.id.txtReceived, response);
+		
+		if (this.lastCommand.equals(CommunicationManager.COMMAND_SCAN)) {
+			try {
+				final String[] input = response.replace("\\D+", " ").trim().split(" ");
+				if (input.length == 3) {
+					final int right = Integer.parseInt(input[0]);
+					final int front = Integer.parseInt(input[1]);
+					final int left = Integer.parseInt(input[2]);
+					
+					this.uiThreadHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							findViewById(R.id.btnRight).setEnabled(right > 10);
+							findViewById(R.id.btnForward).setEnabled(front > 10);
+							findViewById(R.id.btnLeft).setEnabled(left > 10);
+						}
+					});
+				}
+				else {
+					onStatusChanged("Invalid number of arguments (" + input.length + ")");
+				}
+			}
+			catch (Exception e) {
+				onStatusChanged(e.getMessage());
+			}
+		}
 	}
 
 	@Override
