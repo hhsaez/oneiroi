@@ -54,8 +54,7 @@ public class AutonomousActivity extends Activity implements AIDirector.Listener 
 		this.uiThreadHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				//txtOutput.append(message + "\n");
-				txtOutput.setText(message);
+				txtOutput.append(message + "\n");
 			}
 		});
 	}

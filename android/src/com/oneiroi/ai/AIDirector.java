@@ -24,7 +24,6 @@ public class AIDirector implements CommunicationManager.Listener {
 	}
 	
 	public void setCurrentState(AIState state) {
-		this.listener.onStateChanged("State changed");
 		this.currentState = state;
 		if (this.currentState != null) {
 			this.currentState.perform(this);
@@ -56,12 +55,12 @@ public class AIDirector implements CommunicationManager.Listener {
 
 	@Override
 	public void onSentSuccess(String command) {
-		this.listener.onStateChanged("Sent: " + command);
+		this.listener.onStateChanged("Action: " + command);
 	}
 
 	@Override
 	public void onDataReceived(String response) {
-		this.listener.onStateChanged("Received: " + response);
+		this.listener.onStateChanged("Result: " + response);
 		if (this.currentState != null) {
 			this.currentState.onComplete(this, response);
 		}
@@ -69,7 +68,7 @@ public class AIDirector implements CommunicationManager.Listener {
 
 	@Override
 	public void onStatusChanged(String message) {
-		this.listener.onStateChanged(message);
+		// NO-OP
 	}
 }
 
