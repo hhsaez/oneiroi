@@ -1,4 +1,4 @@
-#include <Servo.h>
+#include "Ultrasonic.h"
 
 #define ACTION_HANDSHAKE "handshake"
 #define ACTION_SCAN "scan"
@@ -7,19 +7,11 @@
 #define ACTION_MOVE_FORWARD "forward"
 #define ACTION_MOVE_BACKWARD "backward"
 
-// Servos
-Servo headServo;
-int HEAD_SERVO_PIN = 10;
-int HEAD_LEFT_ANGLE = 180;
-int HEAD_CENTER_ANGLE = 90;
-int HEAD_RIGHT_ANGLE = 0;
-
 // Sensors
-int SENSOR_INTERVAL = 100;
-int MIN_DISTANCE = 0;
-int MAX_DISTANCE = 255;
-int TRIG_PIN = 13;
-int ECHO_PIN = 12;
+int SENSOR_WAIT_MS = 50;
+Ultrasonic leftSensor( 8, 9 ); // (Trig PIN,Echo PIN)
+Ultrasonic centerSensor( 11, 10 ); // (Trig PIN,Echo PIN)
+Ultrasonic rightSensor( 13, 12 ); // (Trig PIN,Echo PIN)
 
 // Motors
 int MAX_SPEED = 255;
@@ -50,15 +42,6 @@ void setup()
   pinMode( IN4, OUTPUT );
   runMotors();
   
-  // setup servos
-  headServo.attach( HEAD_SERVO_PIN );
-  headServo.write( HEAD_CENTER_ANGLE );
-  delay( 1000 );
-  
-  // setup sensors
-  pinMode( TRIG_PIN, OUTPUT );
-  pinMode( ECHO_PIN, INPUT );
-
   i = 0;
 }
 
@@ -108,37 +91,15 @@ void handshake()
   Serial.println( "Hello, Dave. How are you today?" );
 }
 
-int computeDistance() 
-{
-  int duration, distance;
-
-  digitalWrite( TRIG_PIN, HIGH );
-  delayMicroseconds( 1000 );
-  digitalWrite( TRIG_PIN, LOW );
-
-  duration = pulseIn( ECHO_PIN, HIGH );
-  distance = ( duration / 2.0 ) / 29.1;
-  return distance;
-}
-
 void scan() {
-  headServo.write( HEAD_LEFT_ANGLE );
-  delay( 500 );
-  distanceLeft = computeDistance();
-  
-  headServo.write( HEAD_RIGHT_ANGLE );
-  delay( 1000 );
-  distanceRight = computeDistance();
-  
-  headServo.write( HEAD_CENTER_ANGLE );
-  delay( 500 );
-  distanceCenter = computeDistance();
-  
-  Serial.print( distanceLeft );
+  Serial.print( leftSensor.Ranging( CM ) ); // CM or INC
   Serial.print( " " );
-  Serial.print( distanceCenter );
+  delay( 50 );
+  Serial.print( centerSensor.Ranging( CM ) ); // CM or INC
   Serial.print( " " );
-  Serial.println( distanceRight );
+  delay( 50 );
+  Serial.print( rightSensor.Ranging( CM ) ); // CM or INC
+  Serial.println( "" );
 }
 
 void stopMotors() 
@@ -231,13 +192,6 @@ void moveBackward()
 
 void unknownAction(String action)
 {
-  headServo.write( HEAD_CENTER_ANGLE - 30 );
-  delay( 100 );
-  headServo.write( HEAD_CENTER_ANGLE + 30 );
-  delay( 100 );
-  headServo.write( HEAD_CENTER_ANGLE );
-  delay( 100 );
-
   Serial.print( "Unknown action: " );
   Serial.println( action );
 }

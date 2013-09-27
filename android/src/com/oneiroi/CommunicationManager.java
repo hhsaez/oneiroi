@@ -81,15 +81,17 @@ public class CommunicationManager {
 	}
 	
 	public void sendCommand(final String command) {
-		String str = command + "\n";
-		try {
-			byte[] bytes = str.getBytes();
-			serialDevice.write(bytes, bytes.length);
-			this.listener.onStatusChanged("Sending " + bytes.length + " bytes");
-			this.listener.onSentSuccess(command);
-		} catch (Exception e) {
-			this.listener.onStatusChanged("Error sending data");
-			e.printStackTrace();
+		if (serialDevice != null) {
+			String str = command + "\n";
+			try {
+				byte[] bytes = str.getBytes();
+				serialDevice.write(bytes, bytes.length);
+				this.listener.onStatusChanged("Sending " + bytes.length + " bytes");
+				this.listener.onSentSuccess(command);
+			} catch (Exception e) {
+				this.listener.onStatusChanged("Error sending data");
+				e.printStackTrace();
+			}
 		}
 	}
 	
