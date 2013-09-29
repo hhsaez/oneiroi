@@ -116,7 +116,7 @@ public class AutonomousActivity extends Activity implements AIDirector.Listener,
 		this.uiThreadHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				txtOutput.append(message + "\n");
+				txtOutput.setText(message + "\n");
 			}
 		});
 	}
@@ -160,6 +160,7 @@ public class AutonomousActivity extends Activity implements AIDirector.Listener,
         sb.append("<head><title>Oneiroi Server</title></head>");
         sb.append("<body>");
         sb.append(body);
+        sb.append("<a name='end'>&nbsp;</a>");
         sb.append("</body>");
         sb.append("</html>");
 		return sb.toString();
