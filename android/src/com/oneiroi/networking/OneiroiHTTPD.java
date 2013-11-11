@@ -1,12 +1,5 @@
 package com.oneiroi.networking;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
-import android.util.Log;
 
 public class OneiroiHTTPD extends NanoHTTPD {
 	
@@ -20,7 +13,7 @@ public class OneiroiHTTPD extends NanoHTTPD {
     public static final String MIME_XML = "text/xml";
 	
 	public interface Provider {
-		Response onStatusRequest(IHTTPSession session);
+		Response onCommandHistoryRequest(IHTTPSession session);
 		Response onCameraRequest(IHTTPSession session);
 	}
 	
@@ -35,26 +28,15 @@ public class OneiroiHTTPD extends NanoHTTPD {
 	@Override
 	public Response serve(IHTTPSession session) {
 		Response response = null;
-		if (session.getUri().equals("/status")) {
-			response = this.provider.onStatusRequest(session);
+		if (session.getUri().equals("/history")) {
+			response = this.provider.onCommandHistoryRequest(session);
 		}
 		else if (session.getUri().equals("/camera")) {
 			response = this.provider.onCameraRequest(session);
 		}
 		else {
-			StringBuilder sb = new StringBuilder();
-	        sb.append("<html>");
-	        sb.append("<head><title>Oneiroi Server</title></head>");
-	        sb.append("<body>");
-	        sb.append("<h1>Response</h1>");
-	        sb.append("<p><blockquote><b>URI -</b> ").append(session.getUri()).append("<br />");
-	        sb.append("<b>Method -</b> ").append(session.getMethod()).append("</blockquote></p>");
-	        sb.append("<h3>Headers</h3><p><blockquote>").append(session.getHeaders()).append("</blockquote></p>");
-	        sb.append("<h3>Parms</h3><p><blockquote>").append(session.getParms()).append("</blockquote></p>");
-	        sb.append("<h3>Files</h3><p><blockquote>").append(session.getInputStream()).append("</blockquote></p>");
-	        sb.append("</body>");
-	        sb.append("</html>");
-	        response =new Response(sb.toString());
+			String body = "<!DOCTYPE html><html><head><title>Robot Eyes</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"></head><body style=\"padding: 40px;\"><div><div><iframe style=\"width: 40%; float: right; border: 0;\" src=\"history\"></iframe><div></div><div><img style=\"width: 60%; \" src=\"camera\"></img></div></body></html>";
+			response = new Response(body);
 		}
 		
 		return response;

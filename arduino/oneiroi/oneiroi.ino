@@ -5,7 +5,7 @@
 #define ACTION_TURN_LEFT "left"
 #define ACTION_TURN_RIGHT "right"
 #define ACTION_MOVE_FORWARD "forward"
-#define ACTION_MOVE_BACKWARD "backward"
+#define ACTION_MOVE_BACKWARDS "backward"
 
 // Sensors
 int SENSOR_WAIT_MS = 50;
@@ -63,6 +63,8 @@ void loop()
 
 void dispatchAction( const char *action )
 {
+  delay( 500 );  
+  
   if ( strcmp( action, ACTION_HANDSHAKE ) == 0 ) {
     handshake();
   }
@@ -78,7 +80,7 @@ void dispatchAction( const char *action )
   else if ( strcmp( action, ACTION_MOVE_FORWARD ) == 0 ) {
     moveForward();
   }
-  else if ( strcmp( action, ACTION_MOVE_BACKWARD ) == 0 ) {
+  else if ( strcmp( action, ACTION_MOVE_BACKWARDS ) == 0 ) {
     moveBackward();
   }
   else {
@@ -88,6 +90,7 @@ void dispatchAction( const char *action )
 
 void handshake() 
 {
+  delay( 1000 );
   Serial.println( "Hello, Dave. How are you today?" );
 }
 
@@ -100,6 +103,7 @@ void scan() {
   delay( 50 );
   Serial.print( rightSensor.Ranging( CM ) ); // CM or INC
   Serial.println( "" );
+  delay( 50 );
 }
 
 void stopMotors() 
@@ -149,9 +153,9 @@ void turnLeft()
   runMotors();
   analogWrite( ENA, MAX_SPEED );
   analogWrite( ENB, MAX_SPEED );
-  delay( 250 );
+  delay( 500 );
   stopMotors();
-  Serial.println( "Action completed" );
+  Serial.println( ACTION_TURN_LEFT );
 }
 
 void turnRight()
@@ -161,9 +165,9 @@ void turnRight()
   runMotors();
   analogWrite( ENA, MAX_SPEED );
   analogWrite( ENB, MAX_SPEED );
-  delay( 250 );
+  delay( 500 );
   stopMotors();
-  Serial.println( "Action completed" );
+  Serial.println( ACTION_TURN_RIGHT );
 }
 
 void moveForward()
@@ -173,9 +177,9 @@ void moveForward()
   runMotors();
   analogWrite( ENA, MAX_SPEED );
   analogWrite( ENB, MAX_SPEED );
-  delay( 250 );
+  delay( 500 );
   stopMotors();
-  Serial.println( "Action completed" );
+  Serial.println( ACTION_MOVE_FORWARD );
 }
 
 void moveBackward()
@@ -185,9 +189,9 @@ void moveBackward()
   runMotors();
   analogWrite( ENA, MAX_SPEED );
   analogWrite( ENB, MAX_SPEED );
-  delay( 250 );
+  delay( 500 );
   stopMotors();
-  Serial.println( "Action completed" );
+  Serial.println( ACTION_MOVE_BACKWARDS );
 }
 
 void unknownAction(String action)

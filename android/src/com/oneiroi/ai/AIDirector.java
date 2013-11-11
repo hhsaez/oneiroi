@@ -2,8 +2,8 @@ package com.oneiroi.ai;
 
 import android.content.Context;
 
-import com.oneiroi.CommunicationManager;
-import com.oneiroi.ai.states.IdleState;
+import com.oneiroi.ai.states.InitialState;
+import com.oneiroi.serial.CommunicationManager;
 
 public class AIDirector implements CommunicationManager.Listener {
 	
@@ -44,23 +44,33 @@ public class AIDirector implements CommunicationManager.Listener {
 			this.commManager = new CommunicationManager(context, this);
 		}
 		this.commManager.start();
-		this.setCurrentState(new IdleState());
+		this.setCurrentState(new InitialState());
 	}
 	
 	public void sendCommand(String command) {
 		if (this.commManager != null) {
+			this.listener.onStateChanged("Sending \"" + command + "\" command");
 			this.commManager.sendCommand(command);
+		}
+		else {
+			this.listener.onStateChanged("Communication manager not available. Aborting command");
 		}
 	}
 
 	@Override
 	public void onSentSuccess(String command) {
-		this.listener.onStateChanged("Action: " + command);
+		this.listener.onStateChanged("Executing action \"" + command + "\"");
 	}
 
 	@Override
 	public void onDataReceived(String response) {
-		this.listener.onStateChanged("Result: " + response);
+		if (!response.contains("Unknown action")) {
+			this.listener.onStateChanged("Action \"" + response + "\" completed");
+		}
+		else {
+			this.listener.onStateChanged(response);
+		}
+		
 		if (this.currentState != null) {
 			this.currentState.onComplete(this, response);
 		}

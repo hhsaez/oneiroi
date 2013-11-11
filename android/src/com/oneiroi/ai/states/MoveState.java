@@ -1,8 +1,8 @@
 package com.oneiroi.ai.states;
 
-import com.oneiroi.CommunicationManager;
 import com.oneiroi.ai.AIDirector;
 import com.oneiroi.ai.AIState;
+import com.oneiroi.serial.CommunicationManager;
 
 public class MoveState implements AIState {
 	

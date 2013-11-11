@@ -31,11 +31,11 @@
 
 		<script type="text/javascript">
 			function refreshStatus(d) {
-				$(".status").attr("src", "http://192.168.1.101:8080/status?" + d.getTime());
+				$(".status").attr("src", "http://192.168.1.103:8080/status?" + d.getTime());
 			}
 
 			function refreshCamera(d) {
-				$(".camera").attr("src", "http://192.168.1.101:8080/camera?" + d.getTime());
+				$(".camera").attr("src", "http://192.168.1.103:8080/camera?" + d.getTime());
 			}
 
 			$(document).ready(function() {
@@ -50,10 +50,10 @@
   	<body>
   		<div>
     		<div>
-  				<img class="camera" src="http://192.168.1.101:8080/camera"></img>
+  				<img class="camera" src="http://192.168.1.103:8080/camera"></img>
     		</div>
   			<div>
-    			<iframe class="status" src="http://192.168.1.101:8080/status">
+    			<iframe class="status" src="http://192.168.1.103:8080/status">
     			</iframe>
     		<div>
   		</div>

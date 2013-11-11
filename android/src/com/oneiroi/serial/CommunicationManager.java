@@ -1,4 +1,4 @@
-package com.oneiroi;
+package com.oneiroi.serial;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,6 +12,7 @@ import com.hoho.android.usbserial.util.SerialInputOutputManager;
 
 public class CommunicationManager {
 
+	public static final String COMMAND_HANDSHAKE = "handshake";
 	public static final String COMMAND_SCAN = "scan";
 	public static final String COMMAND_FORWARD = "forward";
 	public static final String COMMAND_BACKWARD = "backward";

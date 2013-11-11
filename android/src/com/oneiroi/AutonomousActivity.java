@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.hardware.Camera;
@@ -34,6 +36,7 @@ public class AutonomousActivity extends Activity implements AIDirector.Listener,
 	private OneiroiHTTPD httpd;
 	private Camera camera;
 	private int cameraId = 0;
+	private List<String> commandHistory = new ArrayList<String>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,13 +119,24 @@ public class AutonomousActivity extends Activity implements AIDirector.Listener,
 		this.uiThreadHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				txtOutput.setText(message + "\n");
+				while (commandHistory.size() >= 10) {
+					commandHistory.remove(0);
+				}
+				commandHistory.add(message);
+				
+				StringBuilder sb = new StringBuilder();
+				for (String str : commandHistory) {
+					sb.append(str);
+					sb.append("\n");
+				}
+				
+				txtOutput.setText(sb.toString());
 			}
 		});
 	}
 
 	@Override
-	public Response onStatusRequest(IHTTPSession session) {
+	public Response onCommandHistoryRequest(IHTTPSession session) {
 		return new Response(decorateResponseText(encodeToHTML(txtOutput.getText().toString())));
 	}
 	
